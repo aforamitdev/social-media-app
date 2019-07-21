@@ -1,0 +1,15 @@
+{
+  "name": "Sociamedia",
+  "version": "1.0.0",
+  "description": "social media app",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.5",
+    "morgan": "^1.9.1"
+  }
+}
