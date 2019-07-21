@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const dotenv = require("dotenv");
+const bodyParser = require("body-parser");
 dotenv.config();
 const mongoose = require("mongoose");
 // ! database connections
@@ -16,8 +17,9 @@ mongoose.connect(
 // all the routes
 const postRoutes = require("./routers/post");
 
-// middleWares
+//* middleWares
 app.use(morgan("dev"));
+app.use(bodyParser.json());
 
 app.use("/", postRoutes);
 
