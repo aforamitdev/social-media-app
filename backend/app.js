@@ -4,17 +4,18 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const valid = require("express-validator");
 const dotenv = require("dotenv");
-
+const cookieParser = require("cookie-parser");
 dotenv.config();
 
 const mongoose = require("mongoose");
 // ! database connections
 mongoose.connect(
   process.env.MONGO_URL,
+  { useNewUrlParser: true },
+
   () => {
     console.log("DB connected");
-  },
-  { useNewUrlParser: true }
+  }
 );
 
 // all the routes
@@ -25,6 +26,7 @@ const authRoutes = require("./routers/auth");
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(valid());
+app.use(cookieParser());
 app.use("/", postRoutes);
 app.use("/", authRoutes);
 
