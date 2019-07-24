@@ -7,7 +7,7 @@ const { userById, hasAuthrozition } = require("../controllers/user");
 const router = express.Router();
 
 router.get("/", getPosts);
-router.post("/post", requireSignin, createPostalidator, createPost);
+router.post("/post/new/:userId", requireSignin, createPost, createPostalidator);
 router.param("userId", userById);
 
 module.exports = router;

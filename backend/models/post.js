@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema;
+const { ObjectId } = mongoose.Schema.Types;
 const postSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -15,7 +15,7 @@ const postSchema = new mongoose.Schema({
   },
   photo: {
     type: Buffer,
-    contenType: String
+    contentType: String
   },
   postedBy: {
     type: ObjectId,
