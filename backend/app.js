@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const valid = require("express-validator");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
+const fs = require("fs");
 dotenv.config();
 
 const mongoose = require("mongoose");
@@ -22,6 +23,21 @@ mongoose.connect(
 const postRoutes = require("./routers/post");
 const authRoutes = require("./routers/auth");
 const usersRoutes = require("./routers/users");
+
+// ! api docs
+
+app.get("/", (req, res) => {
+  console.log("get docs ");
+
+  fs.readFile("docs/apiJson.json", (err, data) => {
+    if (err) {
+      res.status(400).json({ error: err });
+    }
+  });
+  const docs = JSON.parse(data);
+  res.json({ docs });
+});
+
 //* middleWares
 app.use(morgan("dev"));
 app.use(bodyParser.json());

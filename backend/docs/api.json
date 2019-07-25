@@ -1,0 +1,23 @@
+{
+  "/": "api docs ",
+  "/signup": "singup",
+  "/signin": "singin",
+  "/signout": "signout",
+
+  "GET /users": "get user",
+  "GET /user/:userId": "get only user",
+  "PUT /user/:userId": "update user id ",
+  "DELETE /user/:userId": "delete user my id",
+  "PRAMS userId": "prams",
+
+  "/post": "",
+  "/post/new/:userId": "POST  new user  ",
+
+  "/posts/by/:userId": "GET  ",
+  "/post/:postId": "POST postID",
+
+  "/post/:postId": "POST postID",
+
+  "userId": "param",
+  "postId": "prams "
+}
