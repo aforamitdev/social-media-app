@@ -3,6 +3,7 @@ const Post = require("../models/post");
 const fs = require("fs");
 const getPosts = (req, res) => {
   Post.find()
+    .populate("postedBy", "_id name")
     .select("_id title body")
     .then(post => {
       res.json({ post: post });
@@ -39,8 +40,18 @@ const createPost = (req, res, next) => {
     });
   });
 };
+const postByUser = (req, res) => {
+  // search and populate by "postedBy"
+  Post.find({ postedBy: req.profile.id })
+    .populate("postedBy", "_id name")
 
+    .exec((err, posts) => {
+      if (err) return res.status(400).json({ error: err });
+      res.json(posts);
+    });
+};
 module.exports = {
   getPosts,
-  createPost
+  createPost,
+  postByUser
 };
