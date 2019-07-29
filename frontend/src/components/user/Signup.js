@@ -16,11 +16,23 @@ class Signup extends Component {
     event.preventDefault();
     const { name, email, password } = this.state;
     const user = {
-      name: name,
-      email: email,
-      password: password
+      name,
+      email,
+      password
     };
     console.log(user);
+    fetch("http://localhost:8080/signup", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application-json"
+      },
+      body: JSON.stringify(user)
+    })
+      .then(res => {
+        return res.json();
+      })
+      .catch(err => console.log(err));
   };
 
   handleChange = names => event => {
