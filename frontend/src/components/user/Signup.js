@@ -1,55 +1,74 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, Component } from "react";
 
-const formData = {
-  name: "",
-  email: "",
-  password: ""
-};
+class Signup extends Component {
+  constructor() {
+    super();
+    this.state = {
+      name: "",
+      email: "",
 
-const formReducers = () => {
-  return formData;
-};
+      password: "",
+      error: ""
+    };
+  }
 
-function Signup() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleChangeName = event => {
-    setName(event.target.value);
+  formSumbit = event => {
+    event.preventDefault();
+    const { name, email, password } = this.state;
+    const user = {
+      name: name,
+      email: email,
+      password: password
+    };
+    console.log(user);
   };
 
-  const [state, dispatch] = useReducer(formReducers, formData);
-  console.log(state);
+  handleChange = names => event => {
+    this.setState({ [names]: event.target.value });
+  };
 
-  return (
-    <div className="container">
-      <h2 className="mt-5 mb-5">Signup</h2>
-      <form action="">
-        <div className="form-group">
-          <label className="text-muted">Name</label>
-          <input type="text" className="form-control" />
-        </div>
-        <div className="form-group">
-          <label className="text-muted">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            onChange={this.handleChange("email")}
-          />
-        </div>
-        <div className="form-group">
-          <label className="text-muted">Password</label>
-          <input
-            type="text"
-            className="form-control"
-            onChange={this.handleChange("password")}
-          />
-        </div>
-        <button className="btn btn-raised btn-primary">Sumbit</button>
-      </form>
-    </div>
-  );
+  render() {
+    return (
+      <div className="container">
+        <h2 className="mt-5 mb-5">Signup</h2>
+        <form action="">
+          <div className="form-group">
+            <label className="text-muted">Name</label>
+            <input
+              type="text"
+              className="form-control"
+              onChange={this.handleChange("name")}
+              value={this.state.name}
+            />
+          </div>
+          <div className="form-group">
+            <label className="text-muted">Email</label>
+            <input
+              type="email"
+              className="form-control"
+              onChange={this.handleChange("email")}
+              value={this.state.email}
+            />
+          </div>
+          <div className="form-group">
+            <label className="text-muted">Password</label>
+            <input
+              type="text"
+              className="form-control"
+              onChange={this.handleChange("password")}
+              value={this.state.password}
+            />
+          </div>
+          <button
+            onClick={this.formSumbit}
+            className="btn btn-raised btn-primary"
+          >
+            Sumbit
+          </button>
+        </form>
+      </div>
+    );
+  }
 }
 
 export default Signup;
