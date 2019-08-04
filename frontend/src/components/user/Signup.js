@@ -1,48 +1,65 @@
 import React, { useState, useReducer, Component } from "react";
-
+import axios from "axios"
 class Signup extends Component {
-  constructor() {
-    super();
-    this.state = {
-      name: "",
-      email: "",
+constructor(){
+  super();
 
-      password: "",
-      error: ""
-    };
+  this.state={
+    name:"",
+    email:"",
+    password:"",
+    error:""
+  };
+
+}
+
+
+
+handleChange=(name)=>(event)=>{
+  this.setState({[name]:event.target.value});
+};
+
+formSumbit =event=>{
+  event.preventDefault();
+  const {name,email,password}=this.state
+  const user={
+    name,email,password
   }
 
-  formSumbit = event => {
-    event.preventDefault();
-    const { name, email, password } = this.state;
-    const user = {
-      name,
-      email,
-      password
-    };
-    console.log(user);
-    fetch("http://localhost:8080/signup", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application-json"
-      },
-      body: JSON.stringify(user)
-    })
-      .then(res => {
-        return res.json();
+this.Signup(user).then(data=>{
+  if(data.error)  this.setState({error:data.error})
+      else this.setState({
+        error:"",
+        name:"",
+        email:"",
+        password:""
       })
-      .catch(err => console.log(err));
-  };
+})
 
-  handleChange = names => event => {
-    this.setState({ [names]: event.target.value });
-  };
+  
+}
+
+Signup=(user)=>{
+  return fetch("http://localhost:8080/signup",{
+    method:"POST",
+    headers:{
+      Accept:"application/json",
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify(user)})
+  // }).then(res=>res.json()).catch(err=>console.log(err));
+
+}
+
 
   render() {
     return (
       <div className="container">
         <h2 className="mt-5 mb-5">Signup</h2>
+        <div className="alert alert-primary">
+        {this.state.error} 
+        </div>
+
         <form action="">
           <div className="form-group">
             <label className="text-muted">Name</label>

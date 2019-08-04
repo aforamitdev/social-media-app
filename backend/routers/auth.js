@@ -4,7 +4,7 @@ const { userValidator } = require("../validation");
 const { userById } = require("../controllers/user");
 const router = express.Router();
 
-router.post("/signup", signup);
+router.post("/signup",userValidator, signup);
 router.post("/signin", signin);
 router.get("/signout", signout);
 //any route containing :userById, app will first execute userById

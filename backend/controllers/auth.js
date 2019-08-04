@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const expressjwt = require("express-jwt"); // for protected routes
 
 const signup = async (req, res) => {
+  console.log(req.body);
   const userExist = await User.findOne({ email: req.body.email });
 
   if (userExist) return res.status(403).json({ error: "Email is Tasken " });
@@ -13,6 +14,7 @@ const signup = async (req, res) => {
   await user.save();
 
   res.status(200).json({ user });
+
 };
 
 const signin = (req, res) => {
