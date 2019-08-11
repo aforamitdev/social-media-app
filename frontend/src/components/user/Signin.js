@@ -1,15 +1,15 @@
-import React, { useState, useReducer, Component } from "react";
-import axios from "axios";
-class Signup extends Component {
+import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
+class Signin extends Component {
   constructor() {
     super();
 
     this.state = {
-      name: "",
       email: "",
       password: "",
       error: "",
-      open: false
+      redirectToref: false,
+      loading: false
     };
   }
 
@@ -20,37 +20,42 @@ class Signup extends Component {
     });
   };
 
+  auth(data, next) {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("jwt", JSON.stringify(data));
+    }
+    next();
+  }
+
   formSumbit = event => {
+    this.setState({ loading: true });
     event.preventDefault();
-    const { name, email, password } = this.state;
+    const { email, password } = this.state;
     const user = {
-      name,
       email,
       password
     };
 
-    this.Signup(user).then(data => {
-      if (data.error)
-        this.setState({
-          error: data.error
+    this.Signin(user).then(data => {
+      console.log(data);
+
+      if (data.error) {
+        this.setState({ error: data.error, loading: false });
+      } else {
+        //auth
+        this.auth(data, () => {
+          this.setState({ redirectToref: true });
         });
-      else
-        this.setState({
-          name: "",
-          email: "",
-          password: "",
-          error: "",
-          open: true
-        });
+      }
     });
   };
 
-  Signup = user => {
+  Signin = user => {
     // return axios.post("/signup", {
     //   user
     // })
 
-    return fetch("http://localhost:8080/signup", {
+    return fetch("http://localhost:8080/signin", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -63,34 +68,29 @@ class Signup extends Component {
   };
 
   render() {
-    const { name, email, password, error, open } = this.state;
+    const { email, password, error, redirectToref, loading } = this.state;
+    if (redirectToref) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="container">
-        <h2 className="mt-5 mb-5"> Signup </h2>{" "}
+        <h2 className="mt-5 mb-5"> Signin </h2>
         <div
           className="alert alert-danger"
           style={{ display: error ? "" : "none" }}
         >
           {error}
         </div>
-        <div
-          className="alert alert-info"
-          style={{ display: open ? "" : "none" }}
-        >
-          New Account is created Sign in
-        </div>
+        {loading ? (
+          <div className="jumbotron text-center">
+            <h2>Loading</h2>
+          </div>
+        ) : (
+          ""
+        )}
         <form action="">
           <div className="form-group">
-            <label className="text-muted"> Name </label>
-            <input
-              type="text"
-              className="form-control"
-              onChange={this.handleChange("name")}
-              value={name}
-            />{" "}
-          </div>{" "}
-          <div className="form-group">
-            <label className="text-muted"> Email </label>{" "}
+            <label className="text-muted"> Email </label>
             <input
               type="email"
               className="form-control"
@@ -99,7 +99,7 @@ class Signup extends Component {
             />{" "}
           </div>{" "}
           <div className="form-group">
-            <label className="text-muted"> Password </label>{" "}
+            <label className="text-muted"> Password </label>
             <input
               type="text"
               className="form-control"
@@ -111,12 +111,12 @@ class Signup extends Component {
             onClick={this.formSumbit}
             className="btn btn-raised btn-primary"
           >
-            Sumbit{" "}
-          </button>{" "}
-        </form>{" "}
+            Sumbit
+          </button>
+        </form>
       </div>
     );
   }
 }
 
-export default Signup;
+export default Signin;
