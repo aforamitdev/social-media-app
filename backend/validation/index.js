@@ -33,7 +33,7 @@ const userValidator = (req, res, next) => {
 
   const errors = req.validationErrors()[0];
   if (errors) {
-    return res.status(400).json({ errors: errors.msg });
+    return res.status(400).json({ error: errors.msg });
   }
   next();
 };

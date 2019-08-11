@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "social media app",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "dev":  "concurrently yarn startcd frontend && yarn start"
+
+
   },
   "license": "MIT",
   "dependencies": {

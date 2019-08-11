@@ -12,11 +12,12 @@ dotenv.config();
 const mongoose = require("mongoose");
 // ! database connections
 mongoose.connect(
-  process.env.MONGO_URL,
-  { useNewUrlParser: true },
+  process.env.MONGO_URL, {
+    useNewUrlParser: true
+  },
 
-  () => {
-    console.log("DB connected");
+  (err) => {
+    console.log(err);
   }
 );
 
@@ -32,11 +33,15 @@ app.get("/", (req, res) => {
 
   fs.readFile("docs/apiJson.json", (err, data) => {
     if (err) {
-      res.status(400).json({ error: err });
+      res.status(400).json({
+        error: err
+      });
     }
   });
   const docs = JSON.parse(data);
-  res.json({ docs });
+  res.json({
+    docs
+  });
 });
 
 //* middleWares
@@ -48,9 +53,11 @@ app.use(cookieParser());
 app.use("/", postRoutes);
 app.use("/", authRoutes);
 app.use("/", usersRoutes);
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   if (err.name == "UnauthorizedError") {
-    res.send(401).json({ error: "Unauthorized" });
+    res.send(401).json({
+      error: "Unauthorized"
+    });
   }
 });
 const PORT = process.env.PORT || 8080;
